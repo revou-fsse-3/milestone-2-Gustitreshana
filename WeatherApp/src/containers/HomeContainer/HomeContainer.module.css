@@ -36,6 +36,14 @@
   font-size: 50px;
 }
 
+.weatherCondition {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-size: 25px;
+}
+
 .dataContainer {
   display: flex;
   justify-content: center;

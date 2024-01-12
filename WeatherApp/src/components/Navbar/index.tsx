@@ -48,7 +48,7 @@ function Navbar() {
   };
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: '#130754'}}>
+    <AppBar position="static" sx={{ backgroundColor: '#003326'}}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <WbSunnyIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />

@@ -11,6 +11,8 @@ import wind_icon from "../../assets/wind.png";
 import humidity_icon from "../../assets/humidity.png";
 import storm_icon from "../../assets/thunderstorm.png";
 import haze_icon from "../../assets/haze.png";
+import { Card } from "../../components";
+import { format, fromUnixTime } from 'date-fns';
 
 interface WeatherData {
   main: {
@@ -25,6 +27,13 @@ interface WeatherData {
     description: string;
     icon: string;
   }[];
+}
+
+interface WeatherHour {
+  day?: string;
+  hour?: string;
+  temp?: number;
+  icon?: string;
 }
 
 const HomeContainer: React.FC = () => {
@@ -49,8 +58,9 @@ const HomeContainer: React.FC = () => {
   };
 
   const search = async () => {
+    getWeatherHour();
     if (searchValue === "") {
-      return;
+      return 0;
     }
 
     try {
@@ -75,6 +85,28 @@ const HomeContainer: React.FC = () => {
       console.error("Error fetching weather data:", error);
     }
   };
+
+  const getWeatherHour = async () => {
+    try {
+      const url = `https://api.openweathermap.org/data/2.5/forecast?q=${searchValue}&appid=${apiKey}`;
+      const response = await fetch(url);
+      const data = await response.json();
+
+      const weatherHours: WeatherHour[] = data.list.map((item: any) => {
+        const date = fromUnixTime(item.dt);
+        return {
+          day: format(date, 'EEEE'),
+          hour: format(date, 'HH'),
+          temp: item.main.temp,
+          icon: item.weather[0].icon,
+        };
+      });
+  
+      console.log(weatherHours);
+    } catch (error) {
+      console.error("Error fetching weather data:", error);
+    }
+  }
 
   const updateWeatherData = (data: WeatherData) => {
     if (data.main && data.main.humidity) {
@@ -150,29 +182,39 @@ const HomeContainer: React.FC = () => {
         </div>
       </div>
       <div className={styles.weatherImage}>
-        <img src={wicon} alt="weather icon" />
-      </div>
+        <div className="flex flex-col space-y-10 items-center">
+        <div className="flex flex-col justify-center items-center">
+          <div className="flex justify-center items-end">
+        <img src={wicon} alt="weather icon"/>
       <div className={`${styles.weatherTemp} weathertemp`}>{temperature}</div>
+          </div>
       <div className={`${styles.weatherLocation} weatherLocation`}>{location}</div>
       <div className={`${styles.weatherCondition} weatherCondition`}>{condition}</div>
-      <div className={styles.dataContainer}>
-        <div className={styles.element}>
-          <img src={humidity_icon} alt="icon humidity" className={styles.icon} />
-          <div className={styles.data}>
-            <div className="humidityPercent">{humidity}</div>
+        </div>
+        <div className="flex justify-center items-center space-x-10">
+        <div className="flex justify-center items-center space-x-3">
+        <img src={humidity_icon} alt="icon humidity" className={styles.icon} />
+          <div className="text-2xl flex flex-col">
+            <div className="humidityPercent text-white">{humidity}</div>
             <div className={styles.text}>Humidity</div>
           </div>
         </div>
-
-        <div className={styles.element}>
-          <img src={wind_icon} alt="" className={styles.icon} />
-          <div className={styles.data}>
-            <div className="windRate">{windSpeed}</div>
+        <div className="flex justify-center items-center space-x-3">
+        <img src={wind_icon} alt="" className={styles.icon} />
+          <div className="text-2xl flex flex-col">
+          <div className="windRate text-white">{windSpeed}</div>
             <div className={styles.text}>Wind Speed</div>
           </div>
         </div>
+        </div>
+        </div>
+        
+        <Card/>
       </div>
-    </div>
+            
+            
+          </div>
+      
   );
 };
 

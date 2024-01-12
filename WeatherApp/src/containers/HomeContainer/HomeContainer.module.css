@@ -2,6 +2,7 @@
   background-image: url("/src/assets/background-rain.jpg");
   background-size: cover;
   background-repeat: no-repeat;
+  height: auto;
 }
 
 .searchIcon {
@@ -16,24 +17,18 @@
 
 .weatherImage {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 }
 
 .weatherTemp {
-  display: flex;
-  justify-content: center;
-  align-itmes: center;
   font-size: 100px;
   color: #fff;
 }
 
 .weatherLocation {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   color: #fff;
-  font-size: 50px;
+  font-size: 30px;
 }
 
 .weatherCondition {
@@ -62,7 +57,7 @@
 }
 
 .icon {
-    width: 80px;
+    width: 50px;
 }
 
 .data {
@@ -71,6 +66,7 @@
 
 .text {
   font-size: 25px;
+  color: #fff;
 }
 
 .cityInput {

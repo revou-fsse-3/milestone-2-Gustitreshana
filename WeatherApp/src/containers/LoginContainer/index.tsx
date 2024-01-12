@@ -35,8 +35,10 @@ const LoginContainer = () => {
       const data = await response.json();
       console.log('Login success:', data);
       window.sessionStorage.setItem("token", data.data.token);
+      // Broadcast a login event
+      window.dispatchEvent(new Event('login'));
 
-      navigate('/home')
+      navigate('/home');
 
     } catch (error: any) {
         alert('Failed to login, please check your email and password are correct!')
